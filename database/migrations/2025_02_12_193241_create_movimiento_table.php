@@ -23,7 +23,7 @@ return new class extends Migration
             $table->string('serie')->nullable();
             $table->string('n_factura')->nullable();
             $table->string('fecha_factura')->nullable();
-            $table->string('OBS')->nullable();
+            $table->string('obs')->nullable();
             $table->string('n_retencion')->nullable();
             $table->string('fecha_retencion')->nullable();
             $table->foreignId('modo_id')->references('id')->on('modo')->onUpdate('cascade')->onDelete('cascade');

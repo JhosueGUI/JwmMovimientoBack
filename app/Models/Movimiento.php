@@ -18,7 +18,7 @@ class Movimiento extends Model
         'serie',
         'n_factura',
         'fecha_factura',
-        'OBS',
+        'obs',
         'n_retencion',
         'fecha_retencion',
         'modo_id',

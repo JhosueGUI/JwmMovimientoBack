@@ -9,13 +9,22 @@ use Illuminate\Support\Facades\DB;
 
 class MovimientoController extends Controller
 {
+    public function get()
+    {
+        try {
+            $movimientos = Movimiento::with(['modo', 'proveedor', 'sub_categoria.categoria', 'empresa', 'estado', 'rendicion', 'sustento', 'moneda'])->where('estado_registro', 'A')->get();
+            return response()->json(['data' => $movimientos], 200);
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
+    }
     public function create(Request $request)
     {
         try {
             DB::beginTransaction();
             //traemos a la empresa
             $empresa = Empresa::where('id', $request->empresa_id)->first();
-            if(!$empresa){
+            if (!$empresa) {
                 return response()->json(['error' => 'Empresa no encontrada'], 404);
             }
             //Obtener ingreso
@@ -23,12 +32,12 @@ class MovimientoController extends Controller
             //Obtener egreso
             $numero_egreso = $request->egreso;
             //Calcular el total
-            if($request->ingreso){
+            if ($request->ingreso) {
                 $total_ingreso = $empresa->total_ingreso + $numero_ingreso;
                 $empresa->update([
                     'total_ingreso' => $total_ingreso
                 ]);
-            }else if($request->egreso){
+            } else if ($request->egreso) {
                 $total_egreso = $empresa->total_egreso + $numero_egreso;
                 $empresa->update([
                     'total_egreso' => $total_egreso
@@ -45,7 +54,7 @@ class MovimientoController extends Controller
                 'serie' => $request->serie,
                 'n_factura' => $request->n_factura,
                 'fecha_factura' => $request->fecha_factura,
-                'OBS' => $request->OBS,
+                'obs' => $request->obs,
                 'n_retencion' => $request->n_retencion,
                 'fecha_retencion' => $request->fecha_retencion,
                 'modo_id' => $request->modo_id,
