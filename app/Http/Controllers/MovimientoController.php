@@ -6,6 +6,7 @@ use App\Models\Empresa;
 use App\Models\Movimiento;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Redis;
 
 class MovimientoController extends Controller
 {
@@ -67,7 +68,37 @@ class MovimientoController extends Controller
                 'moneda_id' => $request->moneda_id,
             ]);
             DB::commit();
-            return response()->json(['message' => 'Movimiento creado con éxito'], 200);
+            return response()->json(['resp' => 'Movimiento creado con éxito'], 200);
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
+    }
+    public function crearTrazabilidad($idMovimiento,Request $request)
+    {
+        try {
+            db::beginTransaction();
+            $movimiento = Movimiento::where('id', $idMovimiento)->first();
+            if (!$movimiento) {
+                return response()->json(['resp' => 'Movimiento no encontrado'], 404);
+            }
+            $movimiento->update([
+                'solicitante'=>$request->solicitante,
+                'sub_destino_placa'=>$request->sub_destino_placa,
+                'sub_categoria_id'=>$request->sub_categoria_id,
+                'estado_id'=>$request->estado_id,
+                'rendicion_id'=>$request->rendicion_id,
+                'serie'=>$request->serie,
+                'n_factura'=>$request->n_factura,
+                'fecha_factura'=>$request->fecha_factura,
+                'obs'=>$request->obs,
+                'n_retencion'=>$request->n_retencion,
+                'fecha_retencion'=>$request->fecha_retencion,
+            ]);
+
+            db::commit();
+            return response()->json(['resp' => "Trazabilidad creado correctamente"], 200);
+
         } catch (\Exception $e) {
             DB::rollBack();
             return response()->json(['error' => $e->getMessage()], 500);
