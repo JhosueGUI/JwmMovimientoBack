@@ -6,7 +6,9 @@ use App\Http\Controllers\EstadoComprobanteController;
 use App\Http\Controllers\ModoController;
 use App\Http\Controllers\MonedaController;
 use App\Http\Controllers\MovimientoController;
+use App\Http\Controllers\PersonaFinanzaController;
 use App\Http\Controllers\ProveedorController;
+use App\Http\Controllers\ProveedorFinanzaController;
 use App\Http\Controllers\RendicionController;
 use App\Http\Controllers\SubCategoriaController;
 use Illuminate\Http\Request;
@@ -37,4 +39,11 @@ Route::group(['prefix' => 'cliente'], function () {
 });
 Route::group(['prefix' => 'sub_categoria'], function () {
     Route::get('/get', [SubCategoriaController::class, 'getSubCategoria']);
+});
+Route::group(['prefix' => 'persona_finanza'], function () {
+    Route::get('/get/{PersonaDNI}', [PersonaFinanzaController::class, 'ObtenerPersonalApi']);
+    Route::post('/create', [PersonaFinanzaController::class, 'crearPersonal']);
+});
+Route::group(['prefix' => 'proveedor_finanza'], function () {
+    Route::post('/create', [ProveedorFinanzaController::class, 'createproveedorFinanza']);
 });

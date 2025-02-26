@@ -22,5 +22,7 @@ class DatabaseSeeder extends Seeder
         $this->call([ModoSeeder::class]);
         $this->call([CategoriaSeeder::class]);
         $this->call([SubCategoriaSeeder::class]);
+        $this->call([PersonaFinanzaSeed::class]);
+        $this->call([ProveedorFinanzaSeed::class]);
     }
 }
