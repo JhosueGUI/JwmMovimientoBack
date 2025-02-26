@@ -43,7 +43,10 @@ Route::group(['prefix' => 'sub_categoria'], function () {
 Route::group(['prefix' => 'persona_finanza'], function () {
     Route::get('/get/{PersonaDNI}', [PersonaFinanzaController::class, 'ObtenerPersonalApi']);
     Route::post('/create', [PersonaFinanzaController::class, 'crearPersonal']);
+    Route::get('/get', [PersonaFinanzaController::class, 'getPersonaFinanza']);
 });
 Route::group(['prefix' => 'proveedor_finanza'], function () {
+    Route::get('/get/{RUC}', [ProveedorFinanzaController::class, 'ObtenerProveedorApi']);
     Route::post('/create', [ProveedorFinanzaController::class, 'createproveedorFinanza']);
+    Route::get('/get', [ProveedorFinanzaController::class, 'getProveedorFinanza']);
 });

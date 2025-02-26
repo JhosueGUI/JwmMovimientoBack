@@ -11,7 +11,7 @@ class PersonaFinanzaController extends Controller
     public function ObtenerPersonalApi($PersonaDNI)
     {
         try {
-            $token = 'apis-token-13367.SebvXzDiWGTyH8pYDu17PMPHyZ27J0Rc';
+            $token = 'apis-token-13379.cSavY9e72ISAkP5ju5d6AmFz3tDaovtb';
             $dni = $PersonaDNI;
 
             // Iniciar llamada a API
@@ -67,6 +67,15 @@ class PersonaFinanzaController extends Controller
             ]);
             DB::commit();
             return response()->json(['resp' => 'Personal creado correctamente'], 201);
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
+    }
+    public function getPersonaFinanza()
+    {
+        try {
+            $persona_finanza = PersonaFinanza::where('estado_registro', 'A')->get();
+            return response()->json(['data' => $persona_finanza], 200);
         } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
         }
