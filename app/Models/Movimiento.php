@@ -23,6 +23,8 @@ class Movimiento extends Model
         'fecha_retencion',
         'modo_id',
         'cliente_id',
+        'persona_finanza_id',
+        'proveedor_finanza_id',
         'sub_categoria_id',
         'empresa_id',
         'estado_id',
@@ -66,5 +68,13 @@ class Movimiento extends Model
     //pertenece a moneda
     public function moneda(){
         return $this->belongsTo(Moneda::class,'moneda_id','id');
+    }
+    //pertenece a persona_finanza
+    public function persona_finanza(){
+        return $this->belongsTo(PersonaFinanza::class,'persona_finanza_id','id');
+    }
+    //pertenece a proveedor_finanza
+    public function proveedor_finanza(){
+        return $this->belongsTo(ProveedorFinanza::class,'proveedor_finanza_id','id');
     }
 }
