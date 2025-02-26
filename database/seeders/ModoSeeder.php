@@ -14,9 +14,8 @@ class ModoSeeder extends Seeder
     public function run(): void
     {
         $modos=[
-            'BM',
-            'TL',
-            'BM:TL'
+            'BANCA MOVIL',
+            'TELECREDITO',
         ];
         foreach ($modos as $modo) {
             Modo::create([
