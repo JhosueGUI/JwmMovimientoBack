@@ -27,7 +27,7 @@ return new class extends Migration
             $table->string('n_retencion')->nullable();
             $table->string('fecha_retencion')->nullable();
             $table->foreignId('modo_id')->nullable()->references('id')->on('modo')->onUpdate('cascade')->onDelete('cascade');
-            $table->foreignId('proveedor_id')->nullable()->references('id')->on('proveedor')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreignId('cliente_id')->nullable()->references('id')->on('cliente')->onUpdate('cascade')->onDelete('cascade');
             $table->foreignId('sub_categoria_id')->nullable()->references('id')->on('sub_categoria')->onUpdate('cascade')->onDelete('cascade');
             $table->foreignId('empresa_id')->nullable()->references('id')->on('empresa')->onUpdate('cascade')->onDelete('cascade');
             $table->foreignId('estado_id')->nullable()->references('id')->on('estado_comprobante')->onUpdate('cascade')->onDelete('cascade');

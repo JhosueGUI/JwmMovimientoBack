@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\Proveedor;
+use App\Models\Cliente;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -13,7 +13,7 @@ class ProveedorSeeder extends Seeder
      */
     public function run(): void
     {
-        $proveedores = [
+        $clientes = [
             '0000005737 ACCUAPRODUC',
             '0000005822 FARGOLINE S',
             '0000005831 STEEL FORM',
@@ -136,22 +136,10 @@ class ProveedorSeeder extends Seeder
             'Estacion de Servicios San Antonio S.',
             'FROT020538191176',
             'Fsj Operador Logistico S.',
-            
-
-
-
-
-
-
-
-
-
-
-
         ];
-        foreach ($proveedores as $proveedor) {
-            Proveedor::create([
-                'nombre_proveedor' => $proveedor,
+        foreach ($clientes as $cliente) {
+            Cliente::create([
+                'nombre_cliente' => $cliente,
             ]);
         }
     }

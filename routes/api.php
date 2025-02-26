@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ClienteController;
 use App\Http\Controllers\EmpresaController;
 use App\Http\Controllers\EstadoComprobanteController;
 use App\Http\Controllers\ModoController;
@@ -31,8 +32,8 @@ Route::group(['prefix' => 'modo'], function () {
 Route::group(['prefix' => 'moneda'], function () {
     Route::get('/get', [MonedaController::class, 'getMoneda']);
 });
-Route::group(['prefix' => 'proveedor'], function () {
-    Route::get('/get', [ProveedorController::class, 'getProveedor']);
+Route::group(['prefix' => 'cliente'], function () {
+    Route::get('/get', [ClienteController::class, 'getCliente']);
 });
 Route::group(['prefix' => 'sub_categoria'], function () {
     Route::get('/get', [SubCategoriaController::class, 'getSubCategoria']);

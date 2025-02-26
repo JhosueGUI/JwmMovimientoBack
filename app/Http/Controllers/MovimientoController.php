@@ -78,7 +78,7 @@ class MovimientoController extends Controller
                 'n_retencion' => $request->n_retencion,
                 'fecha_retencion' => $request->fecha_retencion,
                 'modo_id' => $request->modo_id,
-                'proveedor_id' => $request->proveedor_id,
+                'cliente_id' => $request->cliente_id,
                 'sub_categoria_id' => $request->sub_categoria_id,
                 'empresa_id' => $empresa->id,
                 'estado_id' => $request->estado_id,

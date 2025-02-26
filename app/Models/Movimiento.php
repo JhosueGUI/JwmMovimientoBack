@@ -22,7 +22,7 @@ class Movimiento extends Model
         'n_retencion',
         'fecha_retencion',
         'modo_id',
-        'proveedor_id',
+        'cliente_id',
         'sub_categoria_id',
         'empresa_id',
         'estado_id',
@@ -40,8 +40,8 @@ class Movimiento extends Model
         return $this->belongsTo(Modo::class,'modo_id','id');
     }
     //pertenece a proveedor
-    public function proveedor(){
-        return $this->belongsTo(Proveedor::class,'proveedor_id','id');
+    public function cliente(){
+        return $this->belongsTo(Cliente::class,'cliente_id','id');
     }
     //pertenece a sub_categoria
     public function sub_categoria(){

@@ -11,9 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('proveedor', function (Blueprint $table) {
+        Schema::create('cliente', function (Blueprint $table) {
             $table->id();
-            $table->string('nombre_proveedor')->nullable();
+            $table->string('nombre_cliente')->nullable();
             $table->char('estado_registro')->default('A');
             $table->timestamps();
         });
@@ -24,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('proveedor');
+        Schema::dropIfExists('cliente');
     }
 };

@@ -4,11 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Proveedor extends Model
+class Cliente extends Model
 {
-    protected $table='proveedor';
+    protected $table='cliente';
     protected $fillable=[
-        'nombre_proveedor',
+        'nombre_cliente',
         'estado_registro'
     ];
     protected $primaryKey='id';
