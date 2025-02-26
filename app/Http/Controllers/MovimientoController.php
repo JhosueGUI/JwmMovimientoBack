@@ -36,16 +36,7 @@ class MovimientoController extends Controller
             if (!$moneda) {
                 return response()->json(['error' => 'Moneda no encontrada'], 404);
             }
-            //Obtener persona finanza
-            $persona_finanza = PersonaFinanza::where('id', $request->persona_finanza_id)->first();
-            if (!$persona_finanza) {
-                return response()->json(['error' => 'Persona Finanza no encontrada'], 404);
-            }
-            //Obtener proveedor finanza
-            $proveedor_finanza = ProveedorFinanza::where('id', $request->proveedor_finanza_id)->first();
-            if (!$proveedor_finanza) {
-                return response()->json(['error' => 'Proveedor Finanza no encontrada'], 404);
-            }
+
             //Obtener ingreso
             $numero_ingreso = $request->ingreso;
             //Obtener egreso
@@ -86,6 +77,18 @@ class MovimientoController extends Controller
                     'sustento_id' => $request->sustento_id,
                 ]);
             } else if ($request->egreso) {
+
+                //Obtener persona finanza
+                $persona_finanza = PersonaFinanza::where('id', $request->persona_finanza_id)->first();
+                if (!$persona_finanza) {
+                    return response()->json(['error' => 'Persona Finanza no encontrada'], 404);
+                }
+                //Obtener proveedor finanza
+                $proveedor_finanza = ProveedorFinanza::where('id', $request->proveedor_finanza_id)->first();
+                if (!$proveedor_finanza) {
+                    return response()->json(['error' => 'Proveedor Finanza no encontrada'], 404);
+                }
+
                 if ($moneda->id === 1) {
                     $total_egreso_soles = $empresa->total_egreso_soles + $numero_egreso;
                     $empresa->update([
