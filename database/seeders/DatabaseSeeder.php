@@ -15,7 +15,7 @@ class DatabaseSeeder extends Seeder
     {
         $this->call([EmpresaSeeder::class]);
         $this->call([EstadoComprobanteSeeder::class]);
-        $this->call([ProveedorSeeder::class]);
+        $this->call([ClienteSeeder::class]);
         $this->call([RendicionSeeder::class]);
         $this->call([SustentoSeeder::class]);
         $this->call([MonedaSeeder::class]);

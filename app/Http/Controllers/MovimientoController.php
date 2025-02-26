@@ -14,7 +14,7 @@ class MovimientoController extends Controller
     public function get()
     {
         try {
-            $movimientos = Movimiento::with(['modo', 'proveedor', 'sub_categoria.categoria', 'empresa', 'estado', 'rendicion', 'sustento', 'moneda'])->where('estado_registro', 'A')->get();
+            $movimientos = Movimiento::with(['modo', 'cliente', 'sub_categoria.categoria', 'empresa', 'estado', 'rendicion', 'sustento', 'moneda'])->where('estado_registro', 'A')->get();
             return response()->json(['data' => $movimientos], 200);
         } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
