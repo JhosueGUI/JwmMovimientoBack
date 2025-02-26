@@ -58,9 +58,9 @@ class ProveedorFinanzaController extends Controller
         $response = curl_exec($curl);
         curl_close($curl);
         $empresa = json_decode($response);
-        return response()->json(['resp' =>[
+        return response()->json(['resp' => [
             'razon_social' => $empresa->razonSocial,
-            'ruc'=> $empresa->numeroDocumento,
+            'ruc' => $empresa->numeroDocumento,
         ]], 200);
     }
 }

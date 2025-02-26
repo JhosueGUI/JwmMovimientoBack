@@ -46,10 +46,7 @@ class PersonaFinanzaController extends Controller
                     'nombres' => $persona->nombres,
                     'apellidoPaterno' => $persona->apellidoPaterno,
                     'apellidoMaterno' => $persona->apellidoMaterno,
-                    'nombreCompleto' => $persona->nombreCompleto,
-                    'tipoDocumento' => $persona->tipoDocumento,
-                    'numeroDocumento' => $persona->numeroDocumento,
-                    'digitoVerificador' => $persona->digitoVerificador
+                    'nombreCompleto' => $persona->nombres . ' ' . $persona->apellidoPaterno . ' ' . $persona->apellidoMaterno,
                 ]], 200);
             }
             return response()->json(['error' => 'Persona no encontrada o respuesta inválida'], 404);
