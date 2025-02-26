@@ -14,8 +14,10 @@ return new class extends Migration
         Schema::create('empresa', function (Blueprint $table) {
             $table->id();
             $table->string('nombre_empresa')->nullable();
-            $table->string('total_ingreso')->nullable();
-            $table->string('total_egreso')->nullable();
+            $table->string('total_ingreso_soles')->nullable();
+            $table->string('total_egreso_soles')->nullable();
+            $table->string('total_ingreso_dolares')->nullable();
+            $table->string('total_egreso_dolares')->nullable();
             $table->char('estado_registro')->default('A');
             $table->timestamps();
         });
