@@ -16,7 +16,7 @@ class MovimientoController extends Controller
     public function get()
     {
         try {
-            $movimientos = Movimiento::with(['modo', 'cliente', 'sub_categoria.categoria', 'empresa', 'estado', 'rendicion', 'sustento', 'moneda'])->where('estado_registro', 'A')->get();
+            $movimientos = Movimiento::with(['modo', 'cliente', 'sub_categoria.categoria', 'empresa', 'estado', 'rendicion', 'sustento', 'moneda','persona_finanza','proveedor_finanza'])->where('estado_registro', 'A')->get();
             return response()->json(['data' => $movimientos], 200);
         } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
@@ -155,6 +155,140 @@ class MovimientoController extends Controller
 
             db::commit();
             return response()->json(['resp' => "Trazabilidad creado correctamente"], 200);
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
+    }
+    public function editarMovimiento(Request $request, $idMovimiento)
+    {
+        try {
+            DB::beginTransaction();
+            //traemos a la empresa
+            $empresa = Empresa::where('id', $request->empresa_id)->first();
+            if (!$empresa) {
+                return response()->json(['error' => 'Empresa no encontrada'], 404);
+            }
+            //traemos a la moneda
+            $moneda = Moneda::where('id', $request->moneda_id)->first();
+            if (!$moneda) {
+                return response()->json(['error' => 'Moneda no encontrada'], 404);
+            }
+            //traemos al movimiento
+            $movimiento = Movimiento::where('id', $idMovimiento)->first();
+            if (!$movimiento) {
+                return response()->json(['error' => 'Movimiento no encontrado'], 404);
+            }
+
+            //Obtener ingreso
+            $numero_ingreso = $request->ingreso;
+            //Obtener egreso
+            $numero_egreso = $request->egreso;
+
+            if ($movimiento->ingreso > 0) {
+                if ($movimiento->empresa_id === $empresa->id) {
+                    if ($movimiento->moneda_id === 1) {
+                        $empresa_ingreso_soles = ($empresa->total_ingreso_soles - $movimiento->ingreso) + $numero_ingreso;
+                        $empresa->update([
+                            'total_ingreso_soles' => $empresa_ingreso_soles
+                        ]);
+                    } else if ($movimiento->moneda_id === 2) {
+                        $empresa_ingreso_dolares = ($empresa->total_ingreso_dolares - $movimiento->ingreso) + $numero_ingreso;
+                        $empresa->update([
+                            'total_ingreso_dolares' => $empresa_ingreso_dolares
+                        ]);
+                    }
+                } else if ($movimiento->empresa_id !== $empresa->id) {
+                    $empresa_anterior = $movimiento->empresa;
+                    $empresa_nueva = $empresa;
+
+                    if ($movimiento->moneda_id === 1) {
+                        $empresa_ingreso_soles = ($movimiento->empresa->total_ingreso_soles - $movimiento->ingreso);
+                        $empresa_anterior->update([
+                            'total_ingreso_soles' => $empresa_ingreso_soles
+                        ]);
+                    } else if ($movimiento->moneda_id === 2) {
+                        $empresa_ingreso_dolares = ($movimiento->empresa->total_ingreso_dolares - $movimiento->ingreso);
+                        $empresa_anterior->update([
+                            'total_ingreso_dolares' => $empresa_ingreso_dolares
+                        ]);
+                    }
+                    if ($moneda->id === 1) {
+                        $empresa_ingreso_soles = ($empresa->total_ingreso_soles + $numero_ingreso);
+                        $empresa_nueva->update([
+                            'total_ingreso_soles' => $empresa_ingreso_soles
+                        ]);
+                    } else if ($moneda->id === 2) {
+                        $empresa_ingreso_dolares = ($empresa->total_ingreso_dolares + $numero_ingreso);
+                        $empresa_nueva->update([
+                            'total_ingreso_dolares' => $empresa_ingreso_dolares
+                        ]);
+                    }
+                }
+                $movimiento->update([
+                    'fecha' => $request->fecha,
+                    'n_operacion' => $request->n_operacion,
+                    'cliente_id' => $request->cliente_id,
+                    'moneda_id' => $moneda->id,
+                    'ingreso' => $numero_ingreso,
+                    'empresa_id' => $empresa->id,
+                    'descripcion' => $request->descripcion,
+                ]);
+            } else if ($movimiento->egreso > 0) {
+                if ($movimiento->empresa_id === $empresa->id) {
+                    if ($movimiento->moneda_id === 1) {
+                        $empresa_egreso_soles = ($empresa->total_egreso_soles - $movimiento->egreso) + $numero_egreso;
+                        $empresa->update([
+                            'total_egreso_soles' => $empresa_egreso_soles
+                        ]);
+                    } else if ($movimiento->moneda_id === 2) {
+                        $empresa_egreso_dolares = ($empresa->total_egreso_dolares - $movimiento->egreso) + $numero_egreso;
+                        $empresa->update([
+                            'total_egreso_dolares' => $empresa_egreso_dolares
+                        ]);
+                    }
+                } else if ($movimiento->empresa_id !== $empresa->id) {
+
+                    $empresa_anterior = $movimiento->empresa;
+                    $empresa_nueva = $empresa;
+
+                    if ($movimiento->moneda_id === 1) {
+                        $empresa_egreso_soles = ($movimiento->empresa->total_egreso_soles - $movimiento->egreso);
+                        $empresa_anterior->update([
+                            'total_egreso_soles' => $empresa_egreso_soles
+                        ]);
+                    } else if ($movimiento->moneda_id === 2) {
+                        $empresa_egreso_dolares = ($movimiento->empresa->total_egreso_dolares - $movimiento->egreso);
+                        $empresa_anterior->update([
+                            'total_egreso_dolares' => $empresa_egreso_dolares
+                        ]);
+                    }
+                    if ($moneda->id === 1) {
+                        $empresa_egreso_soles = ($empresa->total_egreso_soles + $numero_egreso);
+                        $empresa_nueva->update([
+                            'total_egreso_soles' => $empresa_egreso_soles
+                        ]);
+                    } else if ($moneda->id === 2) {
+                        $empresa_egreso_dolares = ($empresa->total_egreso_dolares + $numero_egreso);
+                        $empresa_nueva->update([
+                            'total_egreso_dolares' => $empresa_egreso_dolares
+                        ]);
+                    }
+                }
+                $movimiento->update([
+                    'fecha' => $request->fecha,
+                    'modo_id' => $request->modo_id,
+                    'n_operacion' => $request->n_operacion,
+                    'persona_finanza_id' => $request->persona_finanza_id,
+                    'proveedor_finanza_id' => $request->proveedor_finanza_id,
+                    'moneda_id' => $moneda->id,
+                    'egreso' => $numero_egreso,
+                    'empresa_id' => $empresa->id,
+                    'descripcion' => $request->descripcion,
+                ]);
+            }
+            DB::commit();
+            return response()->json(['resp' => 'Movimiento editado con éxito'], 200);
         } catch (\Exception $e) {
             DB::rollBack();
             return response()->json(['error' => $e->getMessage()], 500);

@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\Route;
 Route::group(['prefix' => 'movimiento'], function () {
     Route::get('/get', [MovimientoController::class, 'get']);
     Route::post('/create', [MovimientoController::class, 'create']);
+    Route::post('/update/{idMovimiento}', [MovimientoController::class, 'editarMovimiento']);
     Route::post('/trazabilidad/{idMovimiento}', [MovimientoController::class, 'crearTrazabilidad']);
 });
 Route::group(['prefix' => 'estado-comprobante'], function () {
