@@ -37,6 +37,7 @@ Route::group(['prefix' => 'moneda'], function () {
 });
 Route::group(['prefix' => 'cliente'], function () {
     Route::get('/get', [ClienteController::class, 'getCliente']);
+    Route::post('/create', [ClienteController::class, 'create']);
 });
 Route::group(['prefix' => 'sub_categoria'], function () {
     Route::get('/get', [SubCategoriaController::class, 'getSubCategoria']);
